@@ -1,0 +1,12 @@
+.box{
+  /* background: url("../assets/example.png"); */
+  width:200px;
+  height: 200px;
+  border:1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:20px 20px 5px gray;
+  transform: scale(0.5);
+  border-radius: 10px;
+}
