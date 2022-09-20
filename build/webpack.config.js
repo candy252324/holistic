@@ -1,9 +1,13 @@
 const path = require("path")
+const webpack = require("webpack")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require("vue-loader")
 
+const getConfigOptions = require("./utils").getConfigOptions
+
+
 module.exports = {
-  mode: "production",
+  mode: process.env.NODE_ENV,
   entry: path.resolve(process.cwd(), "src/index.js"),
   output: {
     filename: "[name]-[hash].js", // 输出文件名称
@@ -11,6 +15,7 @@ module.exports = {
     clean: true  // 每次构建前清理 /dist 文件夹
   },
   plugins: [
+    new webpack.DefinePlugin({ ENVConfig: getConfigOptions() }),
     new VueLoaderPlugin(), // 配合 vue-loader 使用
     new HtmlWebpackPlugin({
       title: '系统设置',
