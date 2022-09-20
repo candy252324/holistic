@@ -11,7 +11,8 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: path.resolve(process.cwd(), "src/index.js"),
   output: {
-    filename: "[name]-[hash].js", // 输出文件名称
+    filename: "[name].js", // 主入口 js 文件名称
+    chunkFilename: "static/js/[name]-[id].js",  // 异步加载的模块名称
     path: path.resolve(process.cwd(), "dist"),
     clean: true  // 每次构建前清理 /dist 文件夹
   },
@@ -19,8 +20,8 @@ module.exports = {
     new webpack.DefinePlugin({ ENVConfig: getConfigOptions() }),
     new VueLoaderPlugin(), // 配合 vue-loader 使用
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].css',
-      chunkFilename: 'static/css/[id].css',
+      filename: 'static/css/[name].css',  // 主 css 文件名字
+      chunkFilename: 'static/css/[name]-[id].css',
       ignoreOrder: true,
     }),
     new HtmlWebpackPlugin({
@@ -31,7 +32,7 @@ module.exports = {
       minify: {
         removeComments: false,     // 删除 html 中的注释
         collapseWhitespace: false,   // 删除 html 中空格
-      }
+      },
     })
   ],
   module: {
@@ -39,22 +40,16 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
-        generator: {
-          filename: 'static/css/[name]-[hash:8][ext]',
-        },
       },
       {
         test: /\.less$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
-        generator: {
-          filename: 'static/css/[name]-[hash:8][ext]',
-        },
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset',  // `type: 'asset'` 在导出一个 data URI 和发送一个单独的文件之间自动选择
         generator: {
-          filename: 'static/img/[name]-[hash:8][ext]',
+          filename: 'static/img/[name]-[id][ext]',
         },
       },
       {
