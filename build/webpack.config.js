@@ -1,6 +1,7 @@
 const path = require("path")
 const webpack = require("webpack")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { VueLoaderPlugin } = require("vue-loader")
 
 const getConfigOptions = require("./utils").getConfigOptions
@@ -17,6 +18,11 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({ ENVConfig: getConfigOptions() }),
     new VueLoaderPlugin(), // 配合 vue-loader 使用
+    new MiniCssExtractPlugin({
+      filename: 'static/css/[name].css',
+      chunkFilename: 'static/css/[id].css',
+      ignoreOrder: true,
+    }),
     new HtmlWebpackPlugin({
       title: '系统设置',
       filename: "index.html",
@@ -32,15 +38,24 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+        generator: {
+          filename: 'static/css/[name]-[hash:8][ext]',
+        },
       },
       {
         test: /\.less$/i,
-        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
+        generator: {
+          filename: 'static/css/[name]-[hash:8][ext]',
+        },
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset',  // `type: 'asset'` 在导出一个 data URI 和发送一个单独的文件之间自动选择
+        generator: {
+          filename: 'static/img/[name]-[hash:8][ext]',
+        },
       },
       {
         test: /\.vue$/i,
