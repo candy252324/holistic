@@ -3,12 +3,14 @@ const webpack = require("webpack")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { VueLoaderPlugin } = require("vue-loader")
+const ThemeColorReplacer = require('webpack-theme-color-replacer')
 
 const getConfigOptions = require("./utils").getConfigOptions
 
 
 module.exports = {
   mode: process.env.NODE_ENV,
+  devtool: "eval-cheap-source-map",
   entry: path.resolve(process.cwd(), "src/index.js"),
   output: {
     filename: "[name].js", // 主入口 js 文件名称
@@ -17,6 +19,20 @@ module.exports = {
     clean: true  // 每次构建前清理 /dist 文件夹
   },
   plugins: [
+    // new ThemeColorReplacer({
+    //   // 用于提取css文件的颜色数组，支持rgb和hsl。
+    //   matchColors: ['red', 'green'],
+    //   fileName: 'static/css/theme-colors-[contenthash:8].css', //optional. output css file name, suport [contenthash] and [hash].
+    //   // resolveCss(resultCss) { // optional. Resolve result css code as you wish.
+    //   //     return resultCss.replace(/#ccc/g, '#eee')
+    //   // },
+    //   // externalCssFiles: ['./node_modules/element-ui/lib/theme-chalk/index.css'], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
+    //   // changeSelector(selector, util) { // optional, Funciton. Changing css selectors, in order to raise css priority, to resolve lazy-loading problems.
+    //   //     return util.changeEach(selector, '.el-button--default')
+    //   // },
+    //   injectCss: false, // optional. Inject css text into js file, no need to download `theme-colors-xxx.css` any more.
+    //   isJsUgly: process.env.NODE_ENV !== 'development', // optional. Set to `true` if your js is uglified. Default is set by process.env.NODE_ENV.
+    // }),
     new webpack.DefinePlugin({ ENVConfig: getConfigOptions() }),
     new VueLoaderPlugin(), // 配合 vue-loader 使用
     new MiniCssExtractPlugin({
@@ -43,7 +59,23 @@ module.exports = {
       },
       {
         test: /\.less$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", {
+          loader: "less-loader", options: {
+            lessOptions: {
+              globalVars: {
+                hack: `true; @import "@/style/var.less";`,
+              }
+            }
+          }
+        }],
+      },
+      {
+        test: /\.scss$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", {
+          loader: "sass-loader", options: {
+
+          }
+        }],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -57,8 +89,12 @@ module.exports = {
         use: ["vue-loader"]
       },
       {
-        test: /\.ts$/i,
-        use: ["ts-loader"]
+        test: /\.tsx?$/i,
+        use: ["babel-loader"]
+      },
+      {
+        test: /\.m?jsx?$/i,
+        use: ["babel-loader"]
       }
     ]
   },
