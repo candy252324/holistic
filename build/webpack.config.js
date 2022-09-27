@@ -18,21 +18,24 @@ module.exports = {
     path: path.resolve(process.cwd(), "dist"),
     clean: true  // 每次构建前清理 /dist 文件夹
   },
+  optimization: {
+    minimize: false,  // 不压缩代码
+  },
   plugins: [
-    // new ThemeColorReplacer({
-    //   // 用于提取css文件的颜色数组，支持rgb和hsl。
-    //   matchColors: ['red', 'green'],
-    //   fileName: 'static/css/theme-colors-[contenthash:8].css', //optional. output css file name, suport [contenthash] and [hash].
-    //   // resolveCss(resultCss) { // optional. Resolve result css code as you wish.
-    //   //     return resultCss.replace(/#ccc/g, '#eee')
-    //   // },
-    //   // externalCssFiles: ['./node_modules/element-ui/lib/theme-chalk/index.css'], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
-    //   // changeSelector(selector, util) { // optional, Funciton. Changing css selectors, in order to raise css priority, to resolve lazy-loading problems.
-    //   //     return util.changeEach(selector, '.el-button--default')
-    //   // },
-    //   injectCss: false, // optional. Inject css text into js file, no need to download `theme-colors-xxx.css` any more.
-    //   isJsUgly: process.env.NODE_ENV !== 'development', // optional. Set to `true` if your js is uglified. Default is set by process.env.NODE_ENV.
-    // }),
+    new ThemeColorReplacer({
+      // 用于提取css文件的颜色数组，支持rgb和hsl。
+      matchColors: ['blue', 'orange'],
+      fileName: 'static/css/theme-colors-[contenthash:8].css', //optional. output css file name, suport [contenthash] and [hash].
+      // resolveCss(resultCss) { // optional. Resolve result css code as you wish.
+      //     return resultCss.replace(/#ccc/g, '#eee')
+      // },
+      // externalCssFiles: ['./node_modules/element-ui/lib/theme-chalk/index.css'], // optional, String or string array. Set external css files (such as cdn css) to extract colors.
+      // changeSelector(selector, util) { // optional, Funciton. Changing css selectors, in order to raise css priority, to resolve lazy-loading problems.
+      //     return util.changeEach(selector, '.el-button--default')
+      // },
+      injectCss: false, // optional. Inject css text into js file, no need to download `theme-colors-xxx.css` any more.
+      isJsUgly: process.env.NODE_ENV !== 'development', // optional. Set to `true` if your js is uglified. Default is set by process.env.NODE_ENV.
+    }),
     new webpack.DefinePlugin({ ENVConfig: getConfigOptions() }),
     new VueLoaderPlugin(), // 配合 vue-loader 使用
     new MiniCssExtractPlugin({
@@ -66,14 +69,6 @@ module.exports = {
                 hack: `true; @import "@/style/var.less";`,
               }
             }
-          }
-        }],
-      },
-      {
-        test: /\.scss$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", {
-          loader: "sass-loader", options: {
-
           }
         }],
       },

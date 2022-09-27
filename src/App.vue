@@ -1,59 +1,74 @@
 <template>
-  <div class="box">
-    <p>{{ str }}</p>
-    <button @click="rvStr">切换</button>
-    <Hello></Hello>
+  <div class="wrapper">
+    <div class="change-theme-test">
+      <Box1 />
+      <Box2 />
+    </div>
+
+    <div @click="changeTheme">
+      <button>换肤</button>
+    </div>
+
+    <button @click="dynamicImport">动态导入</button>
+    <component :is="dynamicComp" />
+    <jsxComp :name="'cxx'"></jsxComp>
+    <img :src="imgUrl" />
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
-import Hello from "./components/hello.vue";
-import { reverseStr } from "@utils/str";
-
-// const p = new Promise((resolve, reject) => {
-//   resolve("hahahhah");
-// });
-
-// p.then((res) => console.log(res));
-
-// const t = () => {
-//   console.log("kkkk");
-// };
-
-// // t()
-
-// var arr = [3, 5, 6, 8, 19];
-// // [3, 5, 6, 8, 19].some(item => item > 10)
-// arr.some((item) => item > 10);
+import Box1 from "./components/box1.vue";
+import Box2 from "./components/box2.vue";
+import jsxComp from "./components/jsxComp";
+import examplePng from "@assets/image/example.png";
+import client from "webpack-theme-color-replacer/client";
 
 export default {
   name: "App",
   components: {
-    Hello,
+    Box1,
+    Box2,
+    jsxComp,
   },
   setup() {
-    let str = ref("abcdefg");
-    const rvStr = () => {
-      str.value = reverseStr(str.value);
+    const imgUrl = ref("");
+    const dynamicComp = ref(null);
+    imgUrl.value = examplePng;
+
+    const dynamicImport = () => {
+      import(/* webpackChunkName: "count" */ "./components/count.vue").then(
+        (res) => {
+          dynamicComp.value = res.default;
+        }
+      );
+    };
+    const changeTheme = () => {
+      const options = {
+        newColors: [
+          // ...forElementUI.getElementUISeries(newColor),
+          "red",
+          "green",
+        ],
+      };
+      return client.changer.changeColor(options).then(() => {
+        // do something
+      });
     };
     return {
-      str,
-      rvStr,
+      dynamicComp,
+      dynamicImport,
+      changeTheme,
+      imgUrl,
     };
   },
 };
 </script>
 
 <style scoped  lang="less">
-.box {
-  background: yellow;
-  width: 300px;
-  height: 400px;
-  transform: scale(0.9);
-  display: flex;
-  p {
-    background: red;
+.wrapper {
+  .change-theme-test {
+    display: flex;
   }
 }
 </style>

@@ -1,0 +1,8 @@
+body {
+  --primary-color: blue;
+  --main-padding: 8px;
+}
+html {
+  --primary-color: coral;
+  --main-padding: 8px;
+}
