@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "lite-server --baseDir=dist",
     "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.config.js",
-    "build:dev": "cross-env NODE_ENV=development webpack --config ./build/webpack.config.js"
+    "build:dev": "cross-env NODE_ENV=development webpack --config ./build/webpack.config.js",
+    "lint": "eslint --fix --ext .jsx,.js,.vue,.ts,.tsx ./src"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "mini-css-extract-plugin": "^2.6.1",
     "postcss-loader": "^7.0.1",
     "style-loader": "^3.3.1",
+    "vue-eslint-parser": "^9.1.0",
     "vue-loader": "^17.0.0",
     "vue-template-compiler": "^2.7.10",
     "webpack": "^5.74.0",

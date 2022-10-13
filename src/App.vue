@@ -9,17 +9,19 @@
       <button>换肤</button>
     </div>
 
-    <button @click="dynamicImport">动态导入</button>
+    <button @click="dynamicImport">
+      动态导入
+    </button>
     <component :is="dynamicComp" />
     <jsxComp :name="'cxx'"></jsxComp>
     <img :src="imgUrl" />
   </div>
 </template>
 
-<script>
-import { ref, onMounted } from "vue";
-import Box1 from "./components/box1.vue";
-import Box2 from "./components/box2.vue";
+<script lang="ts">
+import { ref } from "vue";
+import Box1 from "./components/box1-comp.vue";
+import Box2 from "./components/box2-comp.vue";
 import jsxComp from "./components/jsxComp";
 import examplePng from "@assets/image/example.png";
 import client from "webpack-theme-color-replacer/client";
@@ -37,9 +39,10 @@ export default {
     imgUrl.value = examplePng;
 
     const dynamicImport = () => {
-      import(/* webpackChunkName: "count" */ "./components/count.vue").then(
+      import(/* webpackChunkName: "count" */ "./components/count-comp.vue").then(
         (res) => {
-          dynamicComp.value = res.default;
+          
+          dynamicComp.value = res.default as any;
         }
       );
     };
