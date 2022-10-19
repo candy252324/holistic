@@ -14,6 +14,7 @@
     </button>
     <component :is="dynamicComp" />
     <jsxComp :name="'cxx'"></jsxComp>
+    <tsxComp :name="'cxx2'"></tsxComp>
     <img :src="imgUrl" />
   </div>
 </template>
@@ -23,6 +24,7 @@ import { ref } from "vue";
 import Box1 from "./components/box1-comp.vue";
 import Box2 from "./components/box2-comp.vue";
 import jsxComp from "./components/jsxComp";
+import tsxComp from "./components/tsxComp";
 import examplePng from "@assets/image/example.png";
 import client from "webpack-theme-color-replacer/client";
 
@@ -32,19 +34,19 @@ export default {
     Box1,
     Box2,
     jsxComp,
+    tsxComp
   },
   setup() {
     const imgUrl = ref("");
-    const dynamicComp = ref(null);
+    const dynamicComp = ref(null) as any;
     imgUrl.value = examplePng;
 
     const dynamicImport = () => {
-      import(/* webpackChunkName: "count" */ "./components/count-comp.vue").then(
-        (res) => {
-          
-          dynamicComp.value = res.default as any;
-        }
-      );
+      import(
+        /* webpackChunkName: "count" */ "./components/count-comp.vue"
+      ).then((res) => {
+        dynamicComp.value = res.default;
+      });
     };
     const changeTheme = () => {
       const options = {

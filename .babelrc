@@ -1,7 +1,11 @@
 {
   "presets": [
     [
-      "@babel/preset-typescript"
+      "@babel/preset-typescript",
+      {
+        "allExtensions": true, // 所有的文件都将被当做 ts 或 tsx 解析, 解决 .vue 中写lang="ts"导致的打包失败
+        "isTSX": true, //强制开启 jsx 解析，解决 allExtensions 开启后，.jsx 文件打包失败问题
+      },
     ],
     [
       "@babel/preset-env",
