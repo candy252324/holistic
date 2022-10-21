@@ -5,15 +5,15 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref } from 'vue'
 export default {
   setup() {
-    const str = ref("count 组件");
+    const str = ref('count 组件')
     return {
       str,
-    };
+    }
   },
-};
+}
 </script>
 <style scoped lang="less">
 .count {

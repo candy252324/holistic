@@ -1,4 +1,5 @@
 {
+  "editor.tabSize": 2,
   "editor.formatOnType": false,
   "editor.formatOnSave": true,
   // 保存时行为
@@ -8,6 +9,6 @@
     // 自动 stylelint
     "source.fixAll.stylelint": true,
     // 保存时，自动调整 import 语句相关顺序，能够让你的 import 语句按照字母顺序进行排列
-    "source.organizeImports": false
+    // "source.organizeImports": false
   },
 }

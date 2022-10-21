@@ -5,15 +5,15 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 export default {
   setup() {
-    const text = ref("box2");
+    const text = ref('box2')
     return {
       text,
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="less" scoped>
