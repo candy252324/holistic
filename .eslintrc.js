@@ -8,7 +8,8 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:vue/vue3-recommended",  // eslint-plugin-vue 提供的 rules 规则合集
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    'prettier', // 即 eslint-config-prettier，用于关闭 ESlint 中所有不必要或可能与 prettier 冲突的规则。确保把它放在最后，这样它就有机会覆盖其他配置
   ],
   overrides: [
     {
