@@ -39,8 +39,10 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.6.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.1",
     "less": "^4.1.3",
     "less-loader": "^11.0.0",
+    "lint-staged": "^13.0.3",
     "lite-server": "^2.6.1",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss-loader": "^7.0.1",
@@ -62,5 +64,13 @@
     "> 1%",
     "last 2 versions",
     "not ie 11"
-  ]
+  ],
+  "lint-staged": {
+    "*.{ts,js,tsx,jsx,vue}": [
+      "eslint --fix"
+    ],
+    "*.{ts,js,tsx,jsx,vue,less,css}":[
+      "prettier --write"
+    ]
+  }
 }
