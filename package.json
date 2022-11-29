@@ -28,6 +28,8 @@
     "@babel/preset-env": "^7.19.1",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/runtime-corejs3": "^7.19.1",
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "@vue/babel-plugin-jsx": "^1.1.1",
@@ -39,15 +41,16 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^9.6.0",
     "html-webpack-plugin": "^5.5.0",
-    "husky": "^8.0.1",
+    "husky": "2.3.0",
     "less": "^4.1.3",
     "less-loader": "^11.0.0",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "8.1.7",
     "lite-server": "^2.6.1",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss-loader": "^7.0.1",
     "prettier": "2.7.1",
     "style-loader": "^3.3.1",
+    "stylelint": "^14.14.0",
     "typescript": "^4.8.4",
     "vue-eslint-parser": "^9.1.0",
     "vue-loader": "^17.0.0",
@@ -65,11 +68,17 @@
     "last 2 versions",
     "not ie 11"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{ts,js,tsx,jsx,vue}": [
-      "eslint --fix"
+      "eslint --fix",
+      "git add"
     ],
-    "*.{ts,js,tsx,jsx,vue,less,css}":[
+    "*.{ts,js,tsx,jsx,vue,less,css}": [
       "prettier --write"
     ]
   }
